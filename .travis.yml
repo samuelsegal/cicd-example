@@ -6,3 +6,16 @@ before_install:
     - docker build -t samuelsegal/docker-react-example -f Dockerfile.dev .
 script:
     - docker run -e CI=true samuelsegal/docker-react-example yarn test
+
+deploy:
+    provider: elasticbeanstalk
+    region: 'us-east-1'
+    app: 'docker-react-example'
+    env: 'DockerReactExample-env'
+    bucket_name: 'elasticbeanstalk-us-east-1-316922790688'
+    bucket_path: 'docker-react-example'
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+        secure: '$AWS_SECRET_KEY'
